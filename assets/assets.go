@@ -13,9 +13,11 @@ var assets embed.FS
 var PlayerSprite = MustLoadImage("playerShip1_blue.png")
 var meteorImageFiles = []string{
 	"meteors/meteorBrown_big1.png",
-	"meteors/meteorBrown_med1.png",
-	"meteors/meteorBrown_small1.png",
+
+	"meteors/meteorGrey_med1.png",
+	"meteors/meteorGrey_small1.png",
 }
+var ShootingSprite = MustLoadImage("laserGreen04.png")
 
 var MeteorSprites []*ebiten.Image
 

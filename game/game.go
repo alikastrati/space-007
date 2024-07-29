@@ -22,6 +22,7 @@ type Game struct {
 	meteors          []*Meteor
 	baseVelocity     float64
 	velocityTimer    *Timer
+	lasers           []*Laser
 }
 
 func NewGame() *Game {
@@ -38,14 +39,6 @@ func NewGame() *Game {
 
 // This function runs at 60 Ticks per Second (TPS)
 func (g *Game) Update() error {
-	// How we use our timer
-	// g.attackTimer.Update()
-	// if g.attackTimer.IsReady() {
-	// 	g.attackTimer.Reset()
-	//
-	// 	// Execute something (an attack for example)
-	// }
-	//
 	g.player.Update()
 
 	g.meteorSpawnTimer.Update()
@@ -60,6 +53,10 @@ func (g *Game) Update() error {
 		m.Update()
 	}
 
+	for _, l := range g.lasers {
+		l.Update()
+	}
+
 	return nil
 
 }
@@ -72,9 +69,17 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		m.Draw(screen)
 	}
 
+	for _, l := range g.lasers {
+		l.Draw(screen)
+	}
+
 }
 
 // This creates the Layout (board/canvas?) where our objects/images will be shown
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return ScreenWidth, ScreenHeight
+}
+
+func (g *Game) AddLaser(l *Laser) {
+	g.lasers = append(g.lasers, l)
 }
