@@ -56,3 +56,14 @@ func (b *Laser) Draw(screen *ebiten.Image) {
 
 	screen.DrawImage(b.sprite, op)
 }
+
+func (b *Laser) Collider() Rect {
+	bounds := b.sprite.Bounds()
+
+	return NewRect(
+		b.position.X,
+		b.position.Y,
+		float64(bounds.Dx()),
+		float64(bounds.Dy()),
+	)
+}

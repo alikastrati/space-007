@@ -2,9 +2,12 @@ package assets
 
 import (
 	"embed"
-	"github.com/hajimehoshi/ebiten/v2"
 	"image"
 	_ "image/png"
+
+	"github.com/hajimehoshi/ebiten/v2"
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/opentype"
 )
 
 //go:embed *
@@ -20,6 +23,7 @@ var meteorImageFiles = []string{
 var ShootingSprite = MustLoadImage("laserGreen04.png")
 
 var MeteorSprites []*ebiten.Image
+var ScoreFont = MustLoadFont("font.ttf")
 
 // Loads the images one by one (probably not a good idea)
 // TO-DO : Look for a better solution to importing assets
@@ -43,4 +47,28 @@ func MustLoadImage(name string) *ebiten.Image {
 	}
 
 	return ebiten.NewImageFromImage(img)
+}
+
+func MustLoadFont(name string) font.Face {
+	f, err := assets.ReadFile(name)
+	if err != nil {
+		panic(err)
+	}
+
+	tt, err := opentype.Parse(f)
+	if err != nil {
+		panic(err)
+	}
+
+	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size:    48,
+		DPI:     72,
+		Hinting: font.HintingVertical,
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	return face
 }
